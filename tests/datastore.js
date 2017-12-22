@@ -110,7 +110,7 @@ describe("Datastore", function() {
 
     describe("getFindStream", function() {
         it("emit end when no data are available", function(done) {
-            var stub = sinon.stub(datastore, "find",
+            var stub = sinon.stub(datastore, "find").callsFake(
                 function() {
                     return new Promise(function(
                         resolve) {
@@ -129,7 +129,7 @@ describe("Datastore", function() {
         });
 
         it("emit data when data are available", function(done) {
-            var stub = sinon.stub(datastore, "find",
+            var stub = sinon.stub(datastore, "find").callsFake(
                 function(type, options) {
                     var results = [];
                     if (options.offset === 0) {
@@ -157,7 +157,7 @@ describe("Datastore", function() {
         });
 
         it("respect optional limit", function(done) {
-            var stub = sinon.stub(datastore, "find",
+            var stub = sinon.stub(datastore, "find").callsFake(
                 function(type, options) {
                     var results = [];
                     while (results.length < options
@@ -187,7 +187,7 @@ describe("Datastore", function() {
         });
 
         it("emit error", function(done) {
-            var stub = sinon.stub(datastore, "find",
+            var stub = sinon.stub(datastore, "find").callsFake(
                 function(type, options) {
                     if (options.offset > 0) {
                         return new Promise(function(
