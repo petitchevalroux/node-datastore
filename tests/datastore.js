@@ -212,5 +212,37 @@ describe("Datastore", function() {
 
     });
 
+    describe("findOne", function () {
+        var stub;
+        beforeEach(function () {
+            stub = sinon.stub(adapter, "find");
+            stub
+                .withArgs("type",{ option: "value", limit: 1 })
+                .returns(Promise.resolve([{id:2}]))
+            toRestores.push(stub);
+            datastore.findOne("type", {
+                "option": "value"
+            });
+        });
+        
+        it("call adapter.find with the right type", function () {
+            assert.equal(stub.getCall(0)
+                    .args[0], "type");
+        });
+
+        it("call adapter.find with the right options", function () {
+            assert.deepEqual(stub.getCall(0)
+                    .args[1], { option: "value", limit: 1 });
+        });
+        
+        it("return first element", function () {
+            return datastore.findOne("type", {
+                "option": "value"
+            })
+            .then(result=>{
+                assert.deepEqual(result,{ id: 2 });
+            });
+        });
+    });
 
 });

@@ -120,4 +120,20 @@ Datastore.prototype.getFindStream = function(type, options) {
     });
 };
 
+/**
+ * Find a single object
+ * @param {String} type
+ * @param {Object} options
+ * @returns {Promise}
+ */
+Datastore.prototype.findOne = function (type, options) {
+    return this.find(type, Object.assign(options, {limit: 1}))
+        .then(articles => {
+            if (!articles.length) {
+                return null;
+            }
+            return articles[0];
+        });
+};
+
 module.exports = Datastore;
